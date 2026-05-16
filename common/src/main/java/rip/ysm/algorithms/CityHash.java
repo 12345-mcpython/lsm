@@ -509,7 +509,7 @@ public class CityHash {
         }
     }
 
-    class Number128 {
+    static class Number128 {
         private long lowValue;
         private long hiValue;
 

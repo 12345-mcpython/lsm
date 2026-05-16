@@ -1,30 +1,18 @@
 package rip.ysm.algorithms;
 
-import com.elfmcys.yesstevemodel.NativeLibLoader;
-import com.ysm.parser.YSMNative;
-import org.apache.commons.io.FileUtils;
 import rip.ysm.zstd.ZstdUtil;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class YsmZstd {
     public static byte[] decompress(byte[] rawData) throws IOException {
-/*
-        if(NativeLibLoader.isLoaded())
-            return YSMNative.ysmZstdDecompress(rawData);
-*/
-
         byte[] data = YsmZstd.wash(rawData);
-        //FileUtils.writeByteArrayToFile(new File("test.bin"),data);
         return ZstdUtil.decompress(data);
     }
 
     public static byte[] compress(byte[] rawData) {
-    /*    if(NativeLibLoader.isLoaded())
-            return YSMNative.ysmZstdCompress(rawData,3);*/
         byte[] zstdData = ZstdUtil.compress(rawData,3);
         return YsmZstd.obfuscate(zstdData);
     }
@@ -139,7 +127,7 @@ public class YsmZstd {
         int size = 1;
         int fcsFieldSize = fhd & 3;
         boolean singleSegment = ((fhd >> 5) & 1) == 1;
-        int dictIdFlag = (fhd >> 0) & 3;
+        int dictIdFlag = (fhd) & 3;
 
         int dictIdSize = 0;
         int dictIdBits = fhd & 3;
